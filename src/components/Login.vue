@@ -1,9 +1,11 @@
 <script>
-//logica js
+
 </script>
 
 <template>
-    // la parte visual de los formularios HTML
+    <h1> Login </h1>
+    
+ 
 </template>
 
 <style>
