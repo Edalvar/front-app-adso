@@ -1,7 +1,10 @@
 <template>
-    <div>
+    <div class="container_header" v-if="isVisible">
     
     <h2 class="titulo" >Modulo de {{titulo}}</h2>
+
+
+    <h1 v-show="prueba">{{ nombre }}</h1>
     <el-row justify="center" align="middle">
     
       <el-button type="primary" > Cancelar </el-button>
@@ -17,10 +20,16 @@
     </template>
       
     <script setup>
-    defineProps({
+
+    import{computed,ref} from 'vue'
+    const propiedad = defineProps({
       titulo:String,
+      isOpen:Boolean
     
     })
+
+    const isVisible=computed(()=> propiedad.isOpen)
+
     
     </script>
       

@@ -5,11 +5,12 @@
             <Header
             :titulo="'Paises'"
             :tituloBoton="'Crear Pais'"
+            :abrir="abrirFormulario"
             >
 
             </Header>
             <!--componente-->
-            <Formulario titulo="título del formulario">
+            <Formulario titulo="Adición de País" v-model:is-open="mostrarFormulario">
               <template #slotForm>
 
                 <formPais/>
@@ -22,7 +23,7 @@
           <div>
             
 
-            <el-table :data="tableData" stripe style="width: 100%">
+            <el-table v-if="!mostrarFormulario" :data="tableData" stripe style="width: 100%">
                   <el-table-column prop="date" label="Date" width="180" />
                   <el-table-column prop="name" label="Name" width="180" />
                   <el-table-column prop="address" label="Address" />
@@ -51,7 +52,15 @@
   import Formulario from '../../components/Formulario.vue';
   import formPais from './Components/formPais.vue';
 
-  
+
+  const mostrarFormulario=ref(false)
+
+
+  const abrirFormulario=()=>{
+    mostrarFormulario.value=true
+
+  }
+
   interface RuleForm {
     name: string
     region: string
