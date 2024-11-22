@@ -14,12 +14,12 @@ defineProps({
 
 
 <template>
-  <div>
+  <div class="container_header">
 
-    <h2 class="titulo" >Modulo de {{titulo}}</h2>
+    <h2 class="container_title" >Modulo de {{titulo}}</h2>
     <el-row justify="center" align="middle">
 
-      <el-button type="primary" @click="abrir" > {{tituloBoton}} </el-button>
+      <el-button type="primary" @click="abrir" class="padded-button" > {{tituloBoton}} </el-button>
 
     </el-row>
   </div>
@@ -33,8 +33,23 @@ defineProps({
 </template>
 
 <style scoped>
+
 .container{
   margin-bottom: 10px;
+}
+
+.container_header{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid;
+}
+
+.padded-button {
+padding: 20px;
+background-color: coral;
+border: none;
+color: white
+
 }
 
 </style>

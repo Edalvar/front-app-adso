@@ -1,9 +1,11 @@
 <template>
     <el-row class="tac" style="height: 100%;">
-      <el-col :span="12" class="sidebar">
+      <el-col :span="500" class="sidebar">
        
         <el-menu
-          default-active="1"
+          
+          :default-active="$route.path"
+          router
           class="el-menu-vertical-demo"
           background-color="#a29f9b"
           text-color="#fff"
@@ -17,8 +19,8 @@
 
           
               <el-menu-item index="1-2">Personas</el-menu-item>
-              <el-menu-item index="1-3">Paises</el-menu-item>
-              <el-menu-item index="1-4">Peliculas</el-menu-item>
+              <el-menu-item index="Pais">Paises</el-menu-item>
+              <el-menu-item index="Peliculas">Peliculas</el-menu-item>
 
           
           </el-sub-menu>
@@ -29,8 +31,8 @@
             </template>
 
             <el-menu-item index="1-2">Personas</el-menu-item>
-            <el-menu-item index="1-3">Paises</el-menu-item>
-            <el-menu-item index="1-4">Peliculas</el-menu-item>
+            <el-menu-item index="Pais">Paises</el-menu-item>
+            <el-menu-item index="Peliculas">Peliculas</el-menu-item>
            </el-sub-menu>
         
            

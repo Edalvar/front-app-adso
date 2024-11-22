@@ -7,15 +7,15 @@ import SideBarMenu from './SideBarMenu.vue';
 
 
 <template>
-    <el-container>
+    <el-container style = "height :10vh;">
         <el-header>
             <Navbar />
         </el-header>
         <el-container>
-           <el-aside>
+           <el-aside width="180px">
             <SideBarMenu />
            </el-aside>  
-           <el-main>
+           <el-main class="main-content">
               <slot name="slotLayout"></slot>
            </el-main>
         </el-container>
@@ -27,6 +27,18 @@ import SideBarMenu from './SideBarMenu.vue';
 
 
 <style >
+.el-header {
+    padding: 0;
+}
+
+.el-aside {
+
+    background-color: aliceblue;
+}
+
+.main-content {
+    position: relative;
+}
 
 
 
