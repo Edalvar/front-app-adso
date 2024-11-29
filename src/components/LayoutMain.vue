@@ -7,7 +7,7 @@ import SideBarMenu from './SideBarMenu.vue';
 
 
 <template>
-    <el-container style = "height :10vh;">
+    <el-container style = "height :100vh;">
         <el-header>
             <Navbar />
         </el-header>

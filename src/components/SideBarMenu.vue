@@ -1,6 +1,6 @@
 <template>
     <el-row class="tac" style="height: 100%;">
-      <el-col :span="500" class="sidebar">
+      <el-col :span="40" class="sidebar">
        
         <el-menu
           
@@ -24,16 +24,7 @@
 
           
           </el-sub-menu>
-          <el-sub-menu index="2">
-          <template #title>
-              <el-icon><location /></el-icon>
-              <span>Configuracion</span>
-            </template>
-
-            <el-menu-item index="1-2">Personas</el-menu-item>
-            <el-menu-item index="Pais">Paises</el-menu-item>
-            <el-menu-item index="Peliculas">Peliculas</el-menu-item>
-           </el-sub-menu>
+         
         
            
             

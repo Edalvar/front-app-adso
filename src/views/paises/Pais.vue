@@ -10,14 +10,14 @@
 
             </Header>
             <!--componente-->
-            <Formulario titulo="Adición de País" v-model:is-open="mostrarFormulario">
+            <Formulario titulo="Adición de País" v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario">
               <template #slotForm>
                 <el-row :gutter="20">
                   <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 
 
                     <formPais 
-                    v-model:is-open="mostrarFormulario" /> 
+                    v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario"/> 
                   </el-col>
 
                  
@@ -35,6 +35,17 @@
                   <el-table-column prop="name" label="Name" width="180" />
                   <el-table-column prop="address" label="Address" />
                   <el-table-column prop="phone" label="Telephone" />
+                  <el-table-column fixed="right" label="Acciones" min-width="120" >
+                   <template #default="scope">
+                    <el-button link type="primary" size="large" :icon="Edit" @click="editarFormulario">
+
+                    </el-button>
+                    <el-button link type="danger" :icon="Delete">
+                      
+                    </el-button>
+
+                   </template>
+                  </el-table-column>
                 </el-table>
 
              
@@ -61,11 +72,20 @@
 
 
   const mostrarFormulario=ref(false)
+  const editandoFormulario=ref(false)
 
 
   const abrirFormulario=()=>{
+    
     mostrarFormulario.value=true
+    editandoFormulario.value=false
 
+  }
+
+  const editarFormulario= async()=>{
+    //abro de nuevo el formulario pero en este caso el nombre del boton guardar cambia 
+    mostrarFormulario.value=true
+    editandoFormulario.value=true
   }
 
   const tableData = [

@@ -1,141 +1,100 @@
 <template>
    
-    <LayoutMain>
-        <template #slotLayout>
-            
-            
-            <Header
-            :titulo="'Peliculas'"
-            :tituloBoton="'Adicionar Película'"
-            >
+  <LayoutMain>
+      <template #slotLayout>
+          <Header
+          :titulo="'Peliculas'"
+          :tituloBoton="'Adicionar Pelicula'"
+          :abrir="abrirFormulario"
+          >
 
-            </Header>
-        </template>
+          </Header>
+          <!--componente-->
+          <Formulario titulo="Adición de Película" v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario">
+            <template #slotForm>
+              <el-row :gutter="20">
+                <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 
-        
-    </LayoutMain>
+
+                <formPeliculas 
+                  v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario"/> 
+                </el-col>
+
+               
+              
+              </el-row>
+
+              
+
+            </template>
+          </Formulario>
+     
+          
+
+          <el-table :data="tableData" stripe style="width: 100%">
+                <el-table-column prop="name" label="Name" width="180" />
+                <el-table-column prop="address" label="Address" />
+                <el-table-column prop="phone" label="Telephone" />
+                <el-table-column fixed="right" label="Acciones" min-width="120" >
+                 <template #default="scope">
+                  <el-button link type="primary" size="large" :icon="Edit" @click="editarFormulario">
+
+                  </el-button>
+                  <el-button link type="danger" :icon="Delete">
+                    
+                  </el-button>
+
+                 </template>
+                </el-table-column>
+              </el-table>
+
+           
+              
+           
     
- 
-  </template> 
   
-  <script lang="ts" setup>
-  import { reactive, ref } from 'vue'
-  import LayoutMain from '../../components/LayoutMain.vue';
-  import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-  import Header from '../../components/Header.vue';
+      </template>
 
+      
+  </LayoutMain>
   
-  interface RuleForm {
-    name: string
-    region: string
-    count: string
-    date1: string
-    date2: string
-    delivery: boolean
-    location: string
-    type: string[]
-    resource: string
-    desc: string
+
+</template> 
+
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+import LayoutMain from '../../components/LayoutMain.vue';
+import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+import Header from '../../components/Header.vue';
+import Formulario from '../../components/Formulario.vue';
+import formPeliculas from './components/formPeliculas.vue';
+import { Delete,Edit } from '@element-plus/icons-vue';
+
+
+const mostrarFormulario=ref(false)
+const editandoFormulario=ref(false)
+
+
+const abrirFormulario=()=>{
+  
+  mostrarFormulario.value=true
+  editandoFormulario.value=false
+
+}
+
+const editarFormulario= async()=>{
+  //abro de nuevo el formulario pero en este caso el nombre del boton guardar cambia 
+  mostrarFormulario.value=true
+  editandoFormulario.value=true
+}
+
+const tableData = [
+  {
+    name: 'Edwin',
+    address: 'N°. 9033 80th st NY 11421',
+    phone:'4818391'
   }
-  
-  const formSize = ref<ComponentSize>('default')
-  const ruleFormRef = ref<FormInstance>()
-  const ruleForm = reactive<RuleForm>({
-    name: 'Hello',
-    region: '',
-    count: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    location: '',
-    type: [],
-    resource: '',
-    desc: '',
-  })
-  
-  const locationOptions = ['Home', 'Company', 'School']
-  
-  const rules = reactive<FormRules<RuleForm>>({
-    name: [
-      { required: true, message: 'Please input Activity name', trigger: 'blur' },
-      { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-    ],
-    region: [
-      {
-        required: true,
-        message: 'Please select Activity zone',
-        trigger: 'change',
-      },
-    ],
-    count: [
-      {
-        required: true,
-        message: 'Please select Activity count',
-        trigger: 'change',
-      },
-    ],
-    date1: [
-      {
-        type: 'date',
-        required: true,
-        message: 'Please pick a date',
-        trigger: 'change',
-      },
-    ],
-    date2: [
-      {
-        type: 'date',
-        required: true,
-        message: 'Please pick a time',
-        trigger: 'change',
-      },
-    ],
-    location: [
-      {
-        required: true,
-        message: 'Please select a location',
-        trigger: 'change',
-      },
-    ],
-    type: [
-      {
-        type: 'array',
-        required: true,
-        message: 'Please select at least one activity type',
-        trigger: 'change',
-      },
-    ],
-    resource: [
-      {
-        required: true,
-        message: 'Please select activity resource',
-        trigger: 'change',
-      },
-    ],
-    desc: [
-      { required: true, message: 'Please input activity form', trigger: 'blur' },
-    ],
-  })
-  
-  const submitForm = async (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    await formEl.validate((valid, fields) => {
-      if (valid) {
-        console.log('submit!')
-      } else {
-        console.log('error submit!', fields)
-      }
-    })
-  }
-  
-  const resetForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    formEl.resetFields()
-  }
-  
-  const options = Array.from({ length: 10000 }).map((_, idx) => ({
-    value: `${idx + 1}`,
-    label: `${idx + 1}`,
-  }))
-  </script>
-  
+]
+
+
+</script>
