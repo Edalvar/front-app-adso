@@ -47,48 +47,43 @@
       <el-input v-model="formulario.idioma" />
     </el-form-item>
 <!-- imagen portada -->
-    <el-form-item label="Cover" prop="imagenPortada" >
+    <el-form-item label="Cover" prop="imagen_portada" >
       <el-input v-model="formulario.imagen_portada" />
     </el-form-item>
 <!-- pais -->
     <el-form-item label="Pais" prop="pais">
-      <el-select v-model="formulario.pais" placeholder="Pais">
-        <el-option label="United States" value="shanghai" />
-        <el-option label="Colombia" value="beijing" />
+      <el-select v-model="formulario.pais" placeholder="Seleccione el País">
+        
+        <el-option v-for="country in paises" 
+        :key = "country.id"
+        :label = "country.nombre"
+        :value="country.id"
+
+        />
       </el-select>
     </el-form-item>
 <!-- año pelicula  -->
-<el-form-item label="Año" prop="ano">
-    <el-date-picker
-    v-model="formulario.fechaEstreno"
-    type="date"
-    placeholder="Selecciona la fecha"
-    format="YYYY"
-    value-format="YYYY"
-     />
+    <el-form-item label="Año" prop="ano" >
+      <el-input v-model="formulario.ano" />
     </el-form-item>
-    <!-- <el-button type="primary" @click="validarFormulario">
-        Create
-    </el-button> -->
+ 
   
   </el-form>
 
-    <!--   <el-card style="max-width: 100%;">
-        <el-row>
-            <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                <h1>Formulario Películas</h1>
-
-            </el-col>
-        </el-row>
-    </el-card> -->
 </template>
 
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { ElForm } from 'element-plus';
+import { defineProps } from 'vue';
 
-
+const propiedad= defineProps({
+    paises : {
+        type : Array,
+        required: true
+    }
+})
 
 const formSize = ref('default')
 const formRef = ref()
@@ -117,9 +112,9 @@ const rulesForm = reactive({
   sinopsis: [{ required: true, message: 'Por favor ingrese la sinopsis', trigger: 'blur' }],
   clasificacion: [{ required: true, message: 'Por favor ingrese la clasificación', trigger: 'blur' }],
   idioma: [{ required: true, message: 'Por favor ingrese el idioma', trigger: 'blur' }],
-  imagenPortada: [{ required: true, message: 'Por favor ingrese la portada', trigger: 'blur' }],
+  imagen_portada: [{ required: true, message: 'Por favor ingrese la portada', trigger: 'blur' }],
   pais: [{ required: true, message: 'Por favor seleccione el país', trigger: 'change' }],
-  fechaEstreno: [{ required: true, message: 'Por favor seleccione la fecha de estreno', trigger: 'change' }]
+  
 })
 
 
