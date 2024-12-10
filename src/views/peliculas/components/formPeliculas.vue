@@ -74,16 +74,17 @@
 
 
 <script lang="ts" setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { ElForm } from 'element-plus';
 import { defineProps } from 'vue';
 
 const propiedad= defineProps({
     paises : {
         type : Array,
-        required: true
-    }
-})
+        required: true,
+    },
+        dataValue: Object
+    })
 
 const formSize = ref('default')
 const formRef = ref()
@@ -101,7 +102,20 @@ const formulario = reactive({
   pais: '',
 })
 
+const datosFormulario = ()=>{
+   formulario.titulo=propiedad.dataValue[0].titulo,
+   formulario.subtitulos=propiedad.dataValue[0].subtitulos,
+   formulario.genero=propiedad.dataValue[0].genero,
+   formulario.director=propiedad.dataValue[0].director,
+   formulario.duracion=propiedad.dataValue[0].duracion,
+   formulario.sinopsis=propiedad.dataValue[0].sinopsis,
+   formulario.clasificacion=propiedad.dataValue[0].clasificacion,
+   formulario.idioma=propiedad.dataValue[0].idioma,
+   formulario.imagen_portada=propiedad.dataValue[0].imagen_portada,
+   formulario.pais=propiedad.dataValue[0].id_pais,
+   formulario.ano=propiedad.dataValue[0].año
 
+}
 
 const rulesForm = reactive({
   titulo: [{ required: true, message: 'Por favor agregue el nombre de la película', trigger: 'blur' }],
@@ -144,9 +158,17 @@ const validarFormulario = async () => {
 }
 
 
+watch(
+    ()=>propiedad.dataValue,
+    (newData)=> {
+        datosFormulario()
+    }
 
+)
 
 defineExpose({validarFormulario,formulario, limpiarFormulario})
+
+
 
 </script>
 

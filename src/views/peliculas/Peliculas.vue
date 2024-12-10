@@ -10,14 +10,15 @@
 
           </Header>
           <!--componente-->
-          <Formulario titulo="Adición de Película" v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario" @save="guardarDatos">
+          <Formulario titulo="Adición de Película" v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario" 
+          @save="guardarDatos" @update="actualizarDatos">
             <template #slotForm>
               <el-row :gutter="20">
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
 
 <!-- incluyo una constante refForm(definida abajo tipo ref para que sean dinamicos los cambios) que reciba la informacion y pueda haber comunicación entre los componentes -->
                 <formPeliculas 
-                  v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario" ref="formRef" :paises="paises" /> 
+                  v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario" ref="formRef" :paises="paises"  :dataValue ="dataPeliculasById"/> 
                   
                 </el-col>
 
@@ -39,7 +40,7 @@
               
                 <el-table-column fixed="right" label="Acciones" min-width="120" >
                  <template #default="registro">
-                  <el-button link type="primary" size="large" :icon="Edit" @click="editarFormulario">
+                  <el-button link type="primary" size="large" :icon="Edit" @click="editarFormulario(registro.row.id)">
 
                   </el-button>
                   <el-button link type="danger" :icon="Delete" @click="eliminar(registro.row.id)">oe
@@ -77,6 +78,7 @@ import { ElMessage, ElMessageBox  } from 'element-plus'
 const mostrarFormulario=ref(false)
 const editandoFormulario=ref(false)
 const formRef=ref()
+const dataPeliculasById = ref()
 const paises = ref([])
 const peliculas=ref([])
 
@@ -88,10 +90,11 @@ const abrirFormulario=()=>{
 
 }
 
-const editarFormulario= async()=>{
+const editarFormulario= async(id)=>{
   //abro de nuevo el formulario pero en este caso el nombre del boton guardar cambia 
   mostrarFormulario.value=true
   editandoFormulario.value=true
+  dataPeliculasById.value = await datosById(id)
 }
 
 const eliminar= async(id)=>{
@@ -140,7 +143,7 @@ const eliminar= async(id)=>{
   
 }
 
-const tableData = [
+/* const tableData = [
   {
     name: 'Edwin',
     address: 'N°. 9033 80th st NY 11421',
@@ -148,7 +151,7 @@ const tableData = [
   }
 ]
 
-//
+// */
 
 const guardarDatos= async ()=>{
   const validacion = await formRef.value.validarFormulario()
@@ -156,14 +159,21 @@ const guardarDatos= async ()=>{
   if(validacion){
     await crearPelicula()
   }
+}
   
 
+const actualizarDatos = async()=>{
+  const validacion = await formRef.value?.validarFormulario()
+  if(validacion){
+    await actualizarPelicula()
+  } 
 }
 // con estas  funcion haremos el uso de apis 
 const crearPelicula =async()=>{
   //url del endpoint
   const url= 'http://127.0.0.1:8000/api/peliculas/save'
   const dataFormulario={
+    id:dataPeliculasById.value[0].id,
     titulo: formRef.value.formulario.titulo,
     genero: formRef.value.formulario.genero, 
     director: formRef.value.formulario.director, 
@@ -205,8 +215,79 @@ console.log(dataFormulario)
 }
 
 const actualizarPelicula =async()=>{
-  console.log('se actualizo la pelicula')
+  const url= 'http://127.0.0.1:8000/api/peliculas/update'
+  const dataFormulario={
+    id:dataPeliculasById.value[0].id,
+    titulo: formRef.value.formulario.titulo,
+    genero: formRef.value.formulario.genero, 
+    director: formRef.value.formulario.director, 
+    año: formRef.value.formulario.ano, 
+    duracion: formRef.value.formulario.duracion, 
+    sinopsis: formRef.value.formulario.sinopsis, 
+    clasificacion: formRef.value.formulario.clasificacion, 
+    idioma: formRef.value.formulario.idioma, 
+    subtitulos: formRef.value.formulario.subtitulos, 
+    imagen_portada: formRef.value.formulario.imagen_portada, 
+    id_pais: formRef.value.formulario.pais,  
+
+  }
+ 
+ //método PUT con axios
+
+ try {
+
+   axios.put(url, dataFormulario)
+     .then(function(response) {
+       console.log(response)
+       formRef.value?.limpiarFormulario()
+       ElMessage ({
+        message : 'La Pelicula se actualizó con éxito',
+        type: 'success'
+       })
+       datosPelicula()
+       mostrarFormulario.value=false
+      
+       })
+     .catch(function(error) {
+       console.log(error);
+
+     })
+
+ 
+    }catch(error){
+   console.error('error crear pelicula', error)
+ }
+ 
+
 }
+
+const datosById =async(id)=>{
+  const url= 'http://127.0.0.1:8000/api/peliculas/datosById'
+ 
+ //método get con axios
+
+ try{
+
+    const  response =  axios.get(url,{
+    params : {
+      id:id 
+
+
+    }
+      
+   })
+   return(await response).data.result
+     
+      
+       
+  
+  }catch(error){
+   console.error('error crear pelicula', error)
+  }
+ 
+
+}
+
 
 const eliminarPelicula =async()=>{
   console.log('se eliminó la pelicula')
