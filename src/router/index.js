@@ -3,6 +3,7 @@ import LayoutMain from '../components/LayoutMain.vue'
 import Login from '../components/Login.vue'
 import Pais from '../views/paises/Pais.vue'
 import Peliculas from '../views/peliculas/Peliculas.vue'
+import Series from '../views/series/Series.vue'
 
 const routes =[
 
@@ -25,6 +26,12 @@ const routes =[
     path:'/pais',
     name:'Pais',
     component:Pais
+},
+
+{
+    path:'/series',
+    name:'Series',
+    component:Series
 }
 
 ]

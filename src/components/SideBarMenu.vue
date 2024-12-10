@@ -18,9 +18,10 @@
             </template>
 
           
-              <el-menu-item index="1-2">Personas</el-menu-item>
+              <el-menu-item index="Personas">Personas</el-menu-item>
               <el-menu-item index="Pais">Paises</el-menu-item>
               <el-menu-item index="Peliculas">Peliculas</el-menu-item>
+              <el-menu-item index="Series">Series</el-menu-item>
 
           
           </el-sub-menu>
