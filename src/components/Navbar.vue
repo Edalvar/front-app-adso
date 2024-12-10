@@ -12,8 +12,8 @@
       <el-menu-item index="0">
         <img
           style="width: 100px"
-          
-          alt="Element logo"
+          src="/krypton.png"
+          alt="Krypton logo"
         />
       </el-menu-item>
      
