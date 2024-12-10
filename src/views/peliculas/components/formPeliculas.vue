@@ -114,6 +114,7 @@ const rulesForm = reactive({
   idioma: [{ required: true, message: 'Por favor ingrese el idioma', trigger: 'blur' }],
   imagen_portada: [{ required: true, message: 'Por favor ingrese la portada', trigger: 'blur' }],
   pais: [{ required: true, message: 'Por favor seleccione el país', trigger: 'change' }],
+  ano: [{ required: true, message: 'Año de Estreno', trigger: 'change' }],
   
 })
 

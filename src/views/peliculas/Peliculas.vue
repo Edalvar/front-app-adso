@@ -32,16 +32,17 @@
      
           
 
-          <el-table :data="tableData" stripe style="width: 100%">
-                <el-table-column prop="name" label="Name" width="180" />
-                <el-table-column prop="address" label="Address" />
-                <el-table-column prop="phone" label="Telephone" />
+          <el-table :data="peliculas" stripe style="width: 100%" >
+                <el-table-column prop="titulo" label="Titulo" width="180" />
+                <el-table-column prop="director" label="Director" />
+                <el-table-column prop="año" label="Año" />
+              
                 <el-table-column fixed="right" label="Acciones" min-width="120" >
-                 <template #default="scope">
+                 <template #default="registro">
                   <el-button link type="primary" size="large" :icon="Edit" @click="editarFormulario">
 
                   </el-button>
-                  <el-button link type="danger" :icon="Delete">
+                  <el-button link type="danger" :icon="Delete" @click="eliminar(registro.row.id)">oe
                     
                   </el-button>
 
@@ -71,12 +72,13 @@ import Header from '../../components/Header.vue';
 import Formulario from '../../components/Formulario.vue';
 import formPeliculas from './components/formPeliculas.vue';
 import { Delete,Edit } from '@element-plus/icons-vue';
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox  } from 'element-plus'
 
 const mostrarFormulario=ref(false)
 const editandoFormulario=ref(false)
 const formRef=ref()
 const paises = ref([])
+const peliculas=ref([])
 
 
 const abrirFormulario=()=>{
@@ -90,6 +92,52 @@ const editarFormulario= async()=>{
   //abro de nuevo el formulario pero en este caso el nombre del boton guardar cambia 
   mostrarFormulario.value=true
   editandoFormulario.value=true
+}
+
+const eliminar= async(id)=>{
+
+  const url= 'http://127.0.0.1:8000/api/peliculas/delete'
+
+  
+  ElMessageBox.confirm(
+    'Está seguro de eliminar la Pelicula ? ' ,
+    'Eliminar Registro',
+    {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancelar',
+      type: 'error',
+    }
+  )
+    .then(() => {
+      try{
+
+      axios.delete(url, {data:{id}})
+      .then(function(response) {
+        datosPelicula()
+      })
+
+      .catch(function(error) {
+      console.log(error);
+
+      })
+
+
+      }catch(error){
+      console.error('error crear pelicula', error)
+      }
+
+      ElMessage({
+        type: 'success',
+        message: 'Se eliminó correctamente',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Eliminación de registro Cancelada',
+      })
+    })
+  
 }
 
 const tableData = [
@@ -165,7 +213,29 @@ const eliminarPelicula =async()=>{
 }
 
 const datosPelicula =async()=>{
-  console.log('se traen datos de la pelicula')
+  const url= 'http://127.0.0.1:8000/api/peliculas/datos'
+ 
+ //método get con axios
+
+ try{
+
+   axios.get(url)
+     .then(function(response) {
+       peliculas.value = response.data.result
+       console.log(response)
+      
+       })
+     .catch(function(error) {
+       console.log(error);
+
+     })
+
+ 
+ }catch(error){
+   console.error('error crear pelicula', error)
+ }
+ 
+
 }
 
 const getPais =async()=>{
@@ -197,6 +267,7 @@ const getPais =async()=>{
 
 onMounted(()=>{
   getPais()
+  datosPelicula()
 
 })
 </script>
